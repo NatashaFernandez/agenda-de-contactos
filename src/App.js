@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import './App.css';
 import AddContact from './components/AddContact';
-import Header from './components/Header';
 import ContactList from './components/ContactList'
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
 
   return(
     <>
-      <Header/>
       <AddContact addContact={addContact}/>
       <ContactList contacts={contacts} deleteContact={deleteContact}/>
     </>

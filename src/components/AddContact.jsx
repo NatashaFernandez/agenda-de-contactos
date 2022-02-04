@@ -1,4 +1,5 @@
 import { useState } from "react";
+import App from "../App.css"
 
 const AddContact = ({addContact}) => {
 
@@ -33,15 +34,17 @@ const AddContact = ({addContact}) => {
     return(
         <>
             <div>
+                <h1>Contactos</h1>
                 <h2>AGREGAR CONTACTO</h2>
             </div>
             <div>
-                <form onSubmit={onSubmitContact}>
+                <form className="container" onSubmit={onSubmitContact}>
                     <div>
                         <label htmlFor="name">Nombre : </label>
                         <input 
                         type="text" 
                         placeholder="Nombre"
+                        className="container__input"
                         value={name}
                         onChange={(e)=> setName(e.target.value)} />
                     </div>
@@ -50,6 +53,7 @@ const AddContact = ({addContact}) => {
                         <input 
                         type="text" 
                         placeholder="Apellido"
+                        className="container__input"
                         value={lastName}
                         onChange={(e)=> setLastName(e.target.value)}  />
                     </div>
@@ -57,12 +61,14 @@ const AddContact = ({addContact}) => {
                         <label htmlFor="PhoneNumber">Teléfono : </label>
                         <input 
                         type="text"
+                        className="container__input"
                         value={phoneNumber}
                         onChange={(e)=> setPhoneNumber(e.target.value)}  />
                     </div>
-                    <div>
+                    <div className="container__btn">
                         <input 
                         type="submit" 
+                        id="container--btnStyle"
                         value="Agregar contacto"/>
                     </div>
                 </form>
