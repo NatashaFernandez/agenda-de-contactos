@@ -2,23 +2,38 @@
     padding: 0;
     margin: 0;
 }
-h1{
-    padding: 1em;
+.app-header{
+    padding: 10px;
     text-align: center;
     background-color: #2196f3;
     color: white;
+    position: fixed;
+    width: 100%;
 }
+
+.app-header__title{
+    
+}
+
 h2{
     padding: 1em 2em;
 }
 
-.container{
+.container__body{
     padding-left: 2em;
     display: flex;
     flex-wrap: wrap;
 }
 
-.container__input{
+.container__footer{
+    align-items: flex-end;
+}
+
+.control__label{
+    padding-left: 15px
+}
+
+.control__input{
     display: flex;
     padding: 5px;
     margin-top: 10px;
@@ -28,13 +43,68 @@ h2{
 .container__btn{
     display: flex;
     align-items: flex-end;
-}
-#container--btnStyle{
     padding: 10px;
     margin: 12px;
     border-radius: 5px;
     border-style: none;
+    font-weight: 800;
+}
+
+.container_btn--primary{
     background-color: #9c27b0a8;
     color: white;
-    font-weight: 800;
+}
+
+.body__go-back-btn{
+    height: 25px;
+    width: 25px;
+    border: none;
+    border-radius: 50px;
+    position: fixed;
+    top: 15px;
+    left: 10px;
+    background-color: transparent;
+}
+
+.body__go-back-btn img{
+    height: inherit;
+}
+
+.body__action-btn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16.24px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    background-color: #ec407a;
+    border: none;
+    color: white;
+}
+
+.body__action:hover{
+
+    background-color: #ec407a;
+}
+
+li.contact-item {
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.contact-item__media_avatar-icon--empty {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 50px;
+    background-color: lightgray;
+    color: dimgray;
 }
