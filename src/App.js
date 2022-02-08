@@ -22,10 +22,6 @@ function App() {
     {id: "4cb398e2-2dcf-4117-a465-14272edee28d", name: "Hortense", lastName: "Barton", phoneNumber:"1-283-170-2188"},
   ]);
 
-  const deleteContact = id => {
-    setContacts(contacts.filter((contact) => contact.id !== id))
-  }
-
   const addContact = contact => {
     const id = Math.floor( Math.random()*1000) +1;
     const newContact = {id, ...contact}
@@ -33,10 +29,36 @@ function App() {
     setContacts([...contacts, newContact]);
   }
 
+  const deleteContact = id => {
+    setContacts(contacts.filter(({contactid}) => contactid !== id))
+  }
+
+  const saveContact = (contact) => {
+    deleteContact(contact.id)
+    setContacts([...contacts, contact]);
+  }
+
+  const editContact = (contact) => {
+
+  }
+ 
+  const handlers = {
+    app: {
+      
+    },
+    contact: {
+      addContact,
+      deleteContact,
+      editContact,
+      saveContact,
+    }
+  }
+
   return(
     <>
-      <Body className="app-body" onActionComponent={<AddContact addContact={addContact}/>}>
-        <ContactList contacts={contacts} deleteContact={deleteContact}/>
+      <Body className="app-body" 
+        onActionComponent={<AddContact addContact={handlers.contact.addContact}/>}>
+        <ContactList contacts={contacts} contactHandlers={handlers.contact}/>
       </Body>
     </>
   );
