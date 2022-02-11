@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import Header from './Header';
 import goBackIcon from "../../img/go-back.svg"
 
 /**Cuerpo contenedor de componentes que dispone de una propiedad para renderizar un componente de accion al ser pulsado
@@ -21,7 +19,6 @@ const Body = ({onActionComponent,children,className}) => {
 
     return(
         <>
-            
             <main className={className}>
                 {!actionComponentToLoad? //si el no se indico un componente para cargar entonces cargo los hijos del body
                 <>
