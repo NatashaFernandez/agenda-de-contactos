@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ContactForm from "./ContactForm";
 
-const AddContact = ({addContact}) => {
+const AddContact = ({addContact, titleSetter}) => {
 
     const [name, setName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -26,11 +26,13 @@ const AddContact = ({addContact}) => {
             return contact;
         }, {});
 
-        addContact(newContact);
+        addContact({type: "addContact", payload: newContact});
     }
 
     return(
-        <ContactForm title="Agregar contacto" contactAttributes={getContactAttributesCollection()} onSubmitContact={saveContact}/>
+        <ContactForm title="Agregar contacto" titleSetter={titleSetter} 
+                contactAttributes={getContactAttributesCollection()} 
+                onSubmitContact={saveContact}/>
     )
 }
 
