@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const ContactItem = ({ contact, onTouch, isSelectionModeActive }) => {
   let AvatarEmpty = "";
 
@@ -13,7 +11,6 @@ const ContactItem = ({ contact, onTouch, isSelectionModeActive }) => {
 
   return (
     <li
-      key={contact.id}
       id={contact.id}
       className="contact-item"
       onClick={fireOnTouch}

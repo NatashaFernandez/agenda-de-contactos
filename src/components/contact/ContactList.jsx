@@ -3,7 +3,6 @@ import ContactItem from "./ContactItem";
 import ContactDetail from "./ContactDetail";
 import AddContact from "./AddContact";
 import Body from "../common/Body";
-import goBackIcon from "../../img/go-back.svg";
 
 const ContactList = ({ contacts, titleSetter, contactActions }) => {
   const [shouldRenderTouchedContact, renderTouchedComponentView] =
@@ -35,19 +34,15 @@ const ContactList = ({ contacts, titleSetter, contactActions }) => {
 
   return (
     <>
-      {shouldRenderTouchedContact ? ( // si hay que renderizar un contacto indicado
-        <>
-          <button className="body__go-back-btn" onClick={goBack}>
-            <img src={goBackIcon} alt="" />
-          </button>
-          <ContactDetail
-            titleSetter={titleSetter}
-            contact={touchedContact}
-            contacActions={contactActions}
-          />
-        </>
-      ) : (
-        /*caso contrario se listan todos los contactos*/ <Body
+      {shouldRenderTouchedContact ?// si hay que renderizar un contacto indicado
+        <ContactDetail
+          titleSetter={titleSetter}
+          contact={touchedContact}
+          contacActions={contactActions}
+          onGoBack={renderTouchedContact}
+        />
+      :/*caso contrario se listan todos los contactos*/
+        <Body
           className="app-body"
           onActionComponent={
             <AddContact titleSetter={titleSetter} addContact={contactActions} />
@@ -65,7 +60,7 @@ const ContactList = ({ contacts, titleSetter, contactActions }) => {
             ))}
           </ul>
         </Body>
-      )}
+      }
     </>
   );
 };
