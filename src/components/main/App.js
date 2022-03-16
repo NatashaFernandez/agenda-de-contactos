@@ -1,8 +1,8 @@
 import React, { useState, useReducer } from "react";
 import "./App.css";
-import ContactList from "./components/contact/ContactList";
-import Header from "./components/common/Header";
-import ContactActionsReducer from "./context/ContactActionsReducer";
+import ContactList from "../contact/ContactList";
+import Header from "../common/Header";
+import ContactActionsReducer from "../../context/ContactActionsReducer";
 
 function App() {
   //titulo que se le envia al Header y seteador del titulo que se envian a los otros componentes
