@@ -1,8 +1,10 @@
 import React, { useState, useReducer } from "react";
 import "./App.css";
 import ContactList from "../contact/ContactList";
-import Header from "../common/Header";
 import ContactActionsReducer from "../../context/ContactActionsReducer";
+import { Route, Routes } from "react-router-dom";
+import NotFound from "./NotFound";
+import Layout from "./Layout";
 
 function App() {
   //titulo que se le envia al Header y seteador del titulo que se envian a los otros componentes
@@ -94,14 +96,21 @@ function App() {
   ]);
 
   return (
-    <>
-      <Header title={title} />
-      <ContactList
-        contacts={contacts}
-        titleSetter={setTitle}
-        contactActions={dispathContactActions}
-      />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          index
+          element={
+            <ContactList
+              contacts={contacts}
+              titleSetter={setTitle}
+              contactActions={dispathContactActions}
+            />
+          }
+        />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
