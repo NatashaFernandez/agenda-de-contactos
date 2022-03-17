@@ -1,16 +1,17 @@
 import goBackButtonIcon from "../../img/go-back.svg";
 
-const BackButton = ({onGoback}) => {
-
-    return(
+const BackButton = ({ onGoback }) => {
+  return (
     <>
-        {!onGoback ? <></>:
+      {!onGoback ? (
+        <></>
+      ) : (
         <button className="body__go-back-btn" onClick={onGoback}>
-            <img src={goBackButtonIcon} alt="" />
+          <img src={goBackButtonIcon} alt="" />
         </button>
-        }
+      )}
     </>
-    );
-}
+  );
+};
 
 export default BackButton;

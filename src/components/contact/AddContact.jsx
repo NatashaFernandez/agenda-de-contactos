@@ -40,7 +40,7 @@ const AddContact = ({ addContact, titleSetter }) => {
       {}
     );
 
-    addContact({ type: "addContact", payload: newContact });
+    addContact({ type: "ADD_CONTACT", payload: newContact });
   };
 
   return (

@@ -1,11 +1,15 @@
 import ContactForm from "./ContactForm";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const EditContact = ({ contact, contactActions, titleSetter }) => {
+
+const EditContact = ({  contactActions, titleSetter, getContact }) => {
   useEffect(() => {
     titleSetter("Editar Contacto");
   });
-
+  let contactid = useParams("id");
+  const [contact, setContact] = useState(getContact(contactid.id));
+  
   const [name, setName] = useState(contact.name);
   const [lastName, setLastName] = useState(contact.lastName);
   const [phoneNumber, setPhoneNumber] = useState(contact.phoneNumber);
@@ -36,15 +40,15 @@ const EditContact = ({ contact, contactActions, titleSetter }) => {
   /**genera un contacto con los nombres de attributos para un contacto y sus valores y lo guarda en la lista*/
   const saveContact = () => {
     //reducir los atributos de la coleccion a un objeto contacto de clave-valor para ser añadido a la lista
-    const newContact = getContactAttributesCollection().reduce(
+    const editedContact = getContactAttributesCollection().reduce(
       (contact, [attributeName, attribute]) => {
         contact[attributeName] = attribute.getValue();
         return contact;
       },
       {}
     );
-
-    contactActions({ type: "editContact", payload: newContact });
+    editedContact.id = contact.id;
+    contactActions({ type: "EDIT_CONTACT", payload: editedContact });
   };
 
   return (

@@ -1,10 +1,13 @@
 import React, { useState, useReducer } from "react";
 import "./App.css";
 import ContactList from "../contact/ContactList";
+import ContactDetail from "../contact/ContactDetail";
 import ContactActionsReducer from "../../context/ContactActionsReducer";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./NotFound";
 import Layout from "./Layout";
+import AddContact from "../contact/AddContact";
+import EditContact from "../contact/EditContact";
 
 function App() {
   //titulo que se le envia al Header y seteador del titulo que se envian a los otros componentes
@@ -92,8 +95,10 @@ function App() {
       name: "Hortense",
       lastName: "Barton",
       phoneNumber: "1-283-170-2188",
-    },
+    }
   ]);
+
+  const useContact = id => contacts.find(contacto => contacto.id === id)
 
   return (
     <Routes>
@@ -108,7 +113,40 @@ function App() {
             />
           }
         />
+        <Route
+          exact
+          path="view/:id"
+          element={
+            <ContactDetail
+              titleSetter={setTitle}
+              getContact={useContact}
+              contacActions={dispathContactActions}
+              onGoBack={() => console.log("atras")}
+            />
+          }
+        />
+        <Route
+          exact
+          path="add"
+          element={
+            <AddContact
+              titleSetter={setTitle}
+              addContact={dispathContactActions}
+            />
+          }
+        />
       </Route>
+      <Route
+        exact
+        path="edit/:id"
+        element={
+          <EditContact
+            getContact={useContact}
+            contactActions={dispathContactActions}
+            titleSetter={setTitle}
+          />
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
