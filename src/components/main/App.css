@@ -201,7 +201,8 @@ h2 {
 }
 
 .body__go-back-btn:hover {
-  background-color: #9c27b0a8;
+  background-color: #00000021;
+  cursor: pointer;
 }
 
 .body__action-btn {
@@ -216,6 +217,10 @@ h2 {
   border: none;
   color: white;
   z-index: 99999;
+}
+.body__action-btn:hover{
+  background-color: #f7427fad;
+  cursor: pointer;
 }
 
 .body__action:hover {
