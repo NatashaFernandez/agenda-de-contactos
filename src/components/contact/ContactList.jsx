@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ContactItem from "./ContactItem";
 import { useNavigate } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
+import { useAppContext } from "../../context/AppContext";
+import BackButton from "../common/BackButton";
 
-const ContactList = ({ contacts, titleSetter, contactActions }) => {
+const ContactList = ({ contacts, contactActions }) => {
   let navigate = useNavigate();
+  const { app, setApp } = useAppContext();
+  //setApp(...app, header:{...header, tit"Contactos"})
+
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
 
@@ -12,13 +17,35 @@ const ContactList = ({ contacts, titleSetter, contactActions }) => {
     setSelectedContacts([...selectedContacts, contact]);
     setSelectionMode(true);
   };
+
+  useEffect(() => {
+    setApp({
+      ...app,
+      header: {
+        ...app.header,
+        navigation: { title: "Contactos", action: null },
+        toolbar: {
+          promotedActions: [],
+          menuActions: [
+            {
+              displayName: selectionMode
+                ? "Cancelar selección"
+                : "Modo Seleccion",
+              execute: () => setSelectionMode(!selectionMode),
+            },
+          ],
+        },
+      },
+    });
+  }, [selectionMode]);
+
   /** Renderizar el contacto indicado
    *  @description Guarda en {@link touchedContact} el usuario que se toco e indica que hay que renderizar el componente */
   const renderTouchedContact = (contact) => {
     navigate(`view/${contact.id}`);
   };
-
-  /*   const goBack = () => {
+  /* 
+     const goBack = () => {
     selectContact(null); //limpio el contacto seleccionado
     renderTouchedComponentView(false); //indico que no hay que renderizae un contacto
   }; */

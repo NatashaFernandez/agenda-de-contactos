@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from "react";
-import messageIcon from "../../img/envelope-solid.svg";
-import phoneIcon from "../../img/phone-solid.svg";
+import React, { useState } from "react";
+import messageIcon from "../../assets/Icons/envelope-solid.svg";
+import phoneIcon from "../../assets/Icons/phone-solid.svg";
 import { useParams } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
+import { useAppContext } from "../../context/AppContext";
+import { useEffect } from "react";
+import Anchor from "../common/Anchor";
+import BackButton from "../common/BackButton";
 
-const ContactDetail = ({
-  titleSetter,
-  contacActions,
-  onGoback,
-  getContact,
-}) => {
-  let contactid = useParams("id");
+const ContactDetail = ({ contacActions, getContact }) => {
+  const contactid = useParams("id");
+  const { app, setApp } = useAppContext();
   const [contact, setContact] = useState(getContact(contactid.id));
-  
+
   useEffect(() => {
-    titleSetter("Contacto");
-  });
+    setApp({
+      ...app,
+      header: {
+        ...app.header,
+        navigation: { action: <BackButton />, title: "Contacto" },
+        toolbar: { promotedActions: [], menuActions: [] },
+      },
+    });
+  }, []);
 
   return (
     <>
@@ -26,24 +33,26 @@ const ContactDetail = ({
       <section className="contact_info">
         <div className="contact_info--phone">
           <div className="contact_info--display">
-            <a
+            <Anchor
               className="contact_info--heigth"
               href={`tel:${contact.phoneNumber}`}
-            >
-              <img src={phoneIcon} alt="Icono de telefono" />
-            </a>
+              icon={phoneIcon}
+              tooltip={"Llamar al contacto"}
+              toolTipDirection="bottom-right"
+            />
             <div className="divider"></div>
             <p>{contact.phoneNumber}</p>
           </div>
-          <a
+          <Anchor
             className="contact_info--heigth"
             href={`sms:${contact.phoneNumber}`}
-          >
-            <img src={messageIcon} alt="icono de mensaje" />
-          </a>
+            icon={messageIcon}
+            tooltip="Enviar SMS"
+            toolTipDirection="left"
+          />
         </div>
       </section>
-      <FloatingButton title="Editar Contacto" urlToAction={`/edit/${contact.id}`}/>
+      <FloatingButton urlToAction={`/edit/${contact.id}`} />
     </>
   );
 };

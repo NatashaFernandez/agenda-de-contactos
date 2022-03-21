@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ContactForm from "./ContactForm";
+import { useAppContext } from "../../context/AppContext";
+import BackButton from "../common/BackButton";
 
-const AddContact = ({ addContact, titleSetter }) => {
+const AddContact = ({ addContact }) => {
+  const {app,setApp} = useAppContext();
+
+  useEffect(() => {
+    setApp({...app,
+      header:{
+        ...app.header,
+        navigation: { action: <BackButton />, title: "Agregar Contacto" },
+      }
+    })
+  },[]);
+
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -46,7 +59,6 @@ const AddContact = ({ addContact, titleSetter }) => {
   return (
     <ContactForm
       title="Agregar contacto"
-      titleSetter={titleSetter}
       contactAttributes={getContactAttributesCollection()}
       onSubmitContact={saveContact}
     />

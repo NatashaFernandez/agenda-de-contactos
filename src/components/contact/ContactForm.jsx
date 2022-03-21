@@ -1,20 +1,27 @@
 import ControlInput from "../common/ControlInput";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useAppContext } from "../../context/AppContext";
 
 const ContactForm = ({
   title,
-  titleSetter,
   contactAttributes,
   onSubmitContact,
 }) => {
+
+const {app, setApp}=useAppContext();
+  useEffect(() => {
+    setApp({...app,
+      header:{
+        ...app.header,
+        goBackAction:true
+      }
+    })
+  },[]);
+
   const fireOnSubmitContact = (e) => {
     e.preventDefault();
     onSubmitContact();
   };
-
-  useEffect(() => {
-    titleSetter(title);
-  });
 
   return (
     <form className="contact-form">

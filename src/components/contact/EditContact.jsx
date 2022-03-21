@@ -1,15 +1,26 @@
 import ContactForm from "./ContactForm";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
+import BackButton from "../common/BackButton";
 
+const EditContact = ({ contactActions, getContact }) => {
+  const value = useAppContext();
+  const { app, setApp } = useAppContext();
 
-const EditContact = ({  contactActions, titleSetter, getContact }) => {
   useEffect(() => {
-    titleSetter("Editar Contacto");
-  });
+    setApp({
+      ...app,
+      header: {
+        ...app.header,
+        navigation: { action: <BackButton />, title: "Editar Contacto" },
+      },
+    });
+  }, []);
+
   let contactid = useParams("id");
   const [contact, setContact] = useState(getContact(contactid.id));
-  
+
   const [name, setName] = useState(contact.name);
   const [lastName, setLastName] = useState(contact.lastName);
   const [phoneNumber, setPhoneNumber] = useState(contact.phoneNumber);
@@ -47,14 +58,14 @@ const EditContact = ({  contactActions, titleSetter, getContact }) => {
       },
       {}
     );
+
     editedContact.id = contact.id;
     contactActions({ type: "EDIT_CONTACT", payload: editedContact });
   };
 
   return (
     <ContactForm
-      title="Editar Contacto"
-      titleSetter={titleSetter}
+      title="Editar contacto"
       contactAttributes={getContactAttributesCollection()}
       onSubmitContact={saveContact}
     />
