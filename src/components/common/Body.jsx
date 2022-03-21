@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import goBackIcon from "../../img/go-back.svg"
+import goBackIcon from "../../assets/Icons/go-back.svg"
 
 /**Cuerpo contenedor de componentes que dispone de una propiedad para renderizar un componente de accion al ser pulsado
  * @param {{onActionComponent:JSX.Element,children:React.ReactChildren}
