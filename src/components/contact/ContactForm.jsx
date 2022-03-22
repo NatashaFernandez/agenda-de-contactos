@@ -8,16 +8,6 @@ const ContactForm = ({
   onSubmitContact,
 }) => {
 
-const {app, setApp}=useAppContext();
-  useEffect(() => {
-    setApp({...app,
-      header:{
-        ...app.header,
-        goBackAction:true
-      }
-    })
-  },[]);
-
   const fireOnSubmitContact = (e) => {
     e.preventDefault();
     onSubmitContact();

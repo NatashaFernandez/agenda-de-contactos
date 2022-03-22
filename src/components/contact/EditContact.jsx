@@ -5,16 +5,17 @@ import { useAppContext } from "../../context/AppContext";
 import BackButton from "../common/BackButton";
 
 const EditContact = ({ contactActions, getContact }) => {
-  const value = useAppContext();
-  const { app, setApp } = useAppContext();
+  const app = useAppContext();
 
   useEffect(() => {
-    setApp({
-      ...app,
+    app.update({
       header: {
-        ...app.header,
-        navigation: { action: <BackButton />, title: "Editar Contacto" },
-      },
+        navigation: {action: <BackButton/>, title: "Editar contacto"},
+        toolbar: {
+          promotedActions: [],
+          menuActions: [],
+        },
+      }
     });
   }, []);
 

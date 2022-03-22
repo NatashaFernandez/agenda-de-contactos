@@ -10,17 +10,15 @@ import BackButton from "../common/BackButton";
 
 const ContactDetail = ({ contacActions, getContact }) => {
   const contactid = useParams("id");
-  const { app, setApp } = useAppContext();
+  const app = useAppContext();
   const [contact, setContact] = useState(getContact(contactid.id));
 
   useEffect(() => {
-    setApp({
-      ...app,
+    app.update({
       header: {
-        ...app.header,
         navigation: { action: <BackButton />, title: "Contacto" },
-        toolbar: { promotedActions: [], menuActions: [] },
-      },
+        toolbar: { promotedActions: [], menuActions: []},
+      }
     });
   }, []);
 

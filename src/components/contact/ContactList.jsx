@@ -3,12 +3,10 @@ import ContactItem from "./ContactItem";
 import { useNavigate } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
 import { useAppContext } from "../../context/AppContext";
-import BackButton from "../common/BackButton";
 
 const ContactList = ({ contacts, contactActions }) => {
   let navigate = useNavigate();
-  const { app, setApp } = useAppContext();
-  //setApp(...app, header:{...header, tit"Contactos"})
+  const app = useAppContext();
 
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -19,18 +17,16 @@ const ContactList = ({ contacts, contactActions }) => {
   };
 
   useEffect(() => {
-    setApp({
-      ...app,
+    app.update({
       header: {
-        ...app.header,
-        navigation: { title: "Contactos", action: null },
+        navigation: {action: null, title: "Contactos"},
         toolbar: {
           promotedActions: [],
           menuActions: [
             {
               displayName: selectionMode
-                ? "Cancelar selección"
-                : "Modo Seleccion",
+              ? "Cancelar selección"
+              : "Modo Seleccion",
               execute: () => setSelectionMode(!selectionMode),
             },
           ],
@@ -44,11 +40,6 @@ const ContactList = ({ contacts, contactActions }) => {
   const renderTouchedContact = (contact) => {
     navigate(`view/${contact.id}`);
   };
-  /* 
-     const goBack = () => {
-    selectContact(null); //limpio el contacto seleccionado
-    renderTouchedComponentView(false); //indico que no hay que renderizae un contacto
-  }; */
 
   return (
     <>

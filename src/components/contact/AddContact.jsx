@@ -4,16 +4,19 @@ import { useAppContext } from "../../context/AppContext";
 import BackButton from "../common/BackButton";
 
 const AddContact = ({ addContact }) => {
-  const {app,setApp} = useAppContext();
+  const app = useAppContext();
 
   useEffect(() => {
-    setApp({...app,
-      header:{
-        ...app.header,
-        navigation: { action: <BackButton />, title: "Agregar Contacto" },
+    app.update({
+      header: {
+        navigation: {action: <BackButton/>, title: "Agregar contacto"},
+        toolbar: {
+          promotedActions: [],
+          menuActions: [],
+        },
       }
-    })
-  },[]);
+    });
+  }, []);
 
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
