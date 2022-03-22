@@ -2,17 +2,22 @@ import { createContext, useContext } from "react";
 
 const initialAppContextValue = {
   header: {
-    navigation: { title: "Contactos", action: null },
+    navigation: {title: "", action: null },
     toolbar: {
-      promotedActions: [null],
-      menuActions: [null],
+      promotedActions: [],
+      menuActions: [],
     },
   },
 };
 
 const AppContex = createContext({
-  app: initialAppContextValue,
-  setApp: () => {},
+  ...initialAppContextValue,
+  update: ({
+    header: {
+      navigation: {title, action},
+      toolbar: {promotedActions, menuActions}
+    }
+  }) => {},
 });
 const useAppContext = () => useContext(AppContex);
 
