@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import messageIcon from "../../assets/Icons/envelope-solid.svg";
 import phoneIcon from "../../assets/Icons/phone-solid.svg";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
 import { useAppContext } from "../../context/AppContext";
 import { useEffect } from "react";
@@ -12,13 +12,24 @@ const ContactDetail = ({ contacActions, getContact }) => {
   const contactid = useParams("id");
   const app = useAppContext();
   const [contact, setContact] = useState(getContact(contactid.id));
-
+  const navigate = useNavigate();
   useEffect(() => {
     app.update({
       header: {
         navigation: { action: <BackButton />, title: "Contacto" },
-        toolbar: { promotedActions: [], menuActions: []},
-      }
+        toolbar: {
+          promotedActions: [],
+          menuActions: [
+            {
+              displayName: "Eliminar Contacto",
+              execute: () => {
+                contacActions({ type: "DELETE_CONTACT", payload: contact });
+                navigate(-1);
+              }
+            },
+          ],
+        },
+      },
     });
   }, []);
 
