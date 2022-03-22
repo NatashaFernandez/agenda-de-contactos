@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useReducer } from "react";
 import "./App.css";
 import ContactList from "../contact/ContactList";
 import ContactDetail from "../contact/ContactDetail";

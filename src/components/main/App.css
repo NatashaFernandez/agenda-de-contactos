@@ -55,30 +55,50 @@ main::-webkit-scrollbar-thumb {
   max-width: 50px;
   width: 50px;
   height: 100%;
-  background-color: #1090ff;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-h1.header-navigation_title {
+.header-navigation_title {
   height: 100%;
   display: flex;
   align-items: center;
   font-weight: 400;
-  font-size: x-large;
+  font-size: 1.2em;
   box-sizing: border-box;
   padding: 10px;
+  flex-wrap: nowrap;
 }
 
-ul.menu-actions_list {
+.header-toolbar {
+  height: 100%;
+  width: 150px;
+  display: flex;
+}
+
+.menu-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 100%;
+}
+
+.header-toolbar_promotedActions {
+  height: 100%;
+  width: 100px;
+}
+
+.menu-actions_list {
   display: none;
 }
 
 .menu-actions_list--expanded {
   display: block;
   position: absolute;
-  right: 15px;
+  top: 5px;
+  right: 5px;
   z-index: 9;
   background-color: white;
   color: black;
@@ -89,23 +109,23 @@ ul.menu-actions_list {
   box-shadow: -2px 1px 6px 0.5px rgb(70 66 66 / 35%);
 }
 
-li.menu-actions_actionItem {
+.menu-actions_actionItem {
   padding: 10px 20px;
   text-align: start;
   list-style: none;
 }
 
-li.menu-actions_actionItem:hover {
+.menu-actions_actionItem:hover {
   background-color: #e6e6e6;
   cursor: pointer;
 }
 
-.anchor-container {
+.anchor-container, .button-container {
   position: relative;
 }
 
-a.anchor:hover {
-  background-color: aliceblue;
+.anchor:hover, .button:hover {
+  background-color: #00000021;
   border-radius: 50px;
 }
 
@@ -113,7 +133,7 @@ a.anchor:hover {
   padding: 10px;
 }
 
-span.anchor-tooltip {
+.anchor-tooltip {
   position: absolute;
   display: block;
   width: max-content;
@@ -147,8 +167,9 @@ span.anchor-tooltip {
 }
 
 .menu-actions_toggler {
-  background-color: transparent;
   border: none;
+  background-color: transparent;
+  padding: 2px 3.6px 1px;
 }
 
 h2 {
@@ -191,16 +212,16 @@ h2 {
   color: white;
 }
 
-.body__go-back-btn {
-  height: 26px;
-  width: 26px;
+.back-button {
+  height: 35px;
+  width: 35px;
   border: none;
-  border-radius: 5px;
-  padding: 2px;
+  border-radius: 50px;
+  padding: 8px;
   background-color: transparent;
 }
 
-.body__go-back-btn:hover {
+.back-button:hover {
   background-color: #00000021;
   cursor: pointer;
 }
@@ -225,6 +246,12 @@ h2 {
 
 .body__action:hover {
   background-color: #ec407a;
+}
+
+.contact-item_info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 li.contact-item {

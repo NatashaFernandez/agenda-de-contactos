@@ -3,15 +3,12 @@ import HeaderNav from "./HeaderNav";
 import HeaderToolbar from "./HeaderToolbar";
 
 const Header = () => {
-  const { app } = useAppContext();
+  const {header} = useAppContext();
 
   return (
     <header className={`app-header`}>
-      <HeaderNav
-        action={app.header.navigation.action}
-        title={app.header.navigation.title}
-      />
-      <HeaderToolbar menuActions={app.header.toolbar.menuActions} />
+      <HeaderNav {...header.navigation}/>
+      <HeaderToolbar promotedActions={header.promotedActions} menuActions={header.toolbar.menuActions} />
     </header>
   );
 };

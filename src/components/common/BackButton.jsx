@@ -7,7 +7,7 @@ const BackButton = () => {
   const onGoback = () => navigate(-1);
 
   return (
-    <button className="body__go-back-btn" onClick={onGoback}>
+    <button className="back-button" onClick={onGoback}>
       <img src={goBackButtonIcon} alt="" />
     </button>
   );
