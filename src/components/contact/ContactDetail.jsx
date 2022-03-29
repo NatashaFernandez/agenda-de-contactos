@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import Anchor from "../common/Anchor";
 import BackButton from "../common/BackButton";
 
-const ContactDetail = ({ contacActions, getContact }) => {
+const ContactDetail = ({ contactActions, getContact }) => {
   const contactid = useParams("id");
   const app = useAppContext();
   const [contact, setContact] = useState(getContact(contactid.id));
@@ -23,9 +23,9 @@ const ContactDetail = ({ contacActions, getContact }) => {
             {
               displayName: "Eliminar Contacto",
               execute: () => {
-                contacActions({ type: "DELETE_CONTACT", payload: contact });
+                contactActions({ type: "DELETE_CONTACT", payload: contact });
                 navigate(-1);
-              }
+              },
             },
           ],
         },

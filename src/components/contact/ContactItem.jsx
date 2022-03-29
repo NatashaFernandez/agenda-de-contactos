@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
-const ContactItem = ({ contact, onTouch, isSelectionModeActive }) => {
+const ContactItem = ({
+  contact,
+  onTouch,
+  isSelectionModeActive,
+  onLongTouch,
+}) => {
   let AvatarEmpty = "";
 
   const [isChecked, setChecket] = useState(false);
@@ -10,16 +15,17 @@ const ContactItem = ({ contact, onTouch, isSelectionModeActive }) => {
     AvatarEmpty += contact.lastName.trim()[0].toUpperCase();
 
   const fireOnTouch = () => {
-    if(isSelectionModeActive)
+    if (isSelectionModeActive) {
       setChecket(!isChecked);
-    else{
+      onLongTouch(contact);
+    } else {
       onTouch(contact);
       setChecket(false);
     }
   };
 
   useEffect(() => {
-    if(!isSelectionModeActive){
+    if (!isSelectionModeActive) {
       setChecket(false);
     }
 
@@ -27,13 +33,14 @@ const ContactItem = ({ contact, onTouch, isSelectionModeActive }) => {
   }, [isSelectionModeActive]);
 
   return (
-    <li
-      id={contact.id}
-      onClick={fireOnTouch}
-      className="contact-item"
-      >
-      <input type={"checkbox"} checked={isChecked} readOnly
-        className={`contact-item_selector ${isSelectionModeActive ? "" : "is-not-visible"}`}
+    <li id={contact.id} onClick={fireOnTouch} className="contact-item">
+      <input
+        type={"checkbox"}
+        checked={isChecked}
+        readOnly
+        className={`contact-item_selector ${
+          isSelectionModeActive ? "" : "is-not-visible"
+        }`}
       />
       <div
         className={`contact-item__media__avatar-icon${

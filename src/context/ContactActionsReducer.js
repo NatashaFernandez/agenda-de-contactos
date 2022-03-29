@@ -6,9 +6,17 @@
  * @property {string} phoneNumber - numero telefonico del contacto
  */
 
+/**
+ * @typedef ContactAction
+ * @type {(
+ *  {type:"ADD_CONTACT"|"DELETE_CONTACT"|"EDIT_CONTACT",payload:Contact}|
+ *  {type:"DELETE_CONTACTS",payload:Contact[]}
+ * )}
+ */
+
 /** Reducer para ser usado en un Hook useReducer de React y despachar acciones de AMB en contactos
  * @param {Contact[]} contactsState - estado de contactos es un array de {@link Contact Contactos}
- * @param {{type:string,payload:Contact}} action - objeto enviado por un despachador de acciones
+ * @param {ContactAction} action - objeto enviado por un despachador de acciones
  * @returns Contact[]
  */
 export default function ContactActionsReducer(contactsState, action){
@@ -19,6 +27,10 @@ export default function ContactActionsReducer(contactsState, action){
 
     case "DELETE_CONTACT":
       return contactsState.filter(({ id }) => id !== action.payload.id);
+
+    case "DELETE_CONTACTS":
+      const selectedContacts = action.payload;
+      return contactsState.filter(contact => !selectedContacts.includes(contact));
 
     case "EDIT_CONTACT":
       const editedContact = action.payload;

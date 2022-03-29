@@ -28,9 +28,11 @@ const MenuActions = ({actions}) => {
           :<></>}
           <ul className={`menu-actions_list${shouldShowMenuActions? '--expanded':''}`}>
             {shouldShowMenuActions && actions.map((action, i) =>
-                <li key={i} className="menu-actions_actionItem" onClick={() => doAction(action.execute)}>{action.displayName}</li>
+                <li key={i} className={`menu-actions_actionItem${action.hidden?"--hidden":""}`}
+                onClick={() => doAction(action.execute)}>{action.icon && <img src={action.icon} alt=""/>}{action.displayName}</li>
             )}
           </ul>
+          {shouldShowMenuActions && <span className="menu-actions_shadowout" onClick={showMenuActions}/>}
         </div>
     );
 }

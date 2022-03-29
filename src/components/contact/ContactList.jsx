@@ -19,21 +19,37 @@ const ContactList = ({ contacts, contactActions }) => {
   useEffect(() => {
     app.update({
       header: {
-        navigation: {action: null, title: "Contactos"},
+        navigation: { action: null, title: "Contactos" },
         toolbar: {
           promotedActions: [],
           menuActions: [
             {
+              icon: "../../assets/Icons/select.svg",
               displayName: selectionMode
-              ? "Cancelar selección"
-              : "Modo Seleccion",
-              execute: () => setSelectionMode(!selectionMode),
+                ? "Cancelar selección"
+                : "Modo Seleccion",
+              execute: () => {
+                setSelectedContacts([]);
+                setSelectionMode(!selectionMode)
+              }
             },
+            {
+              icon: "",
+              enabled: selectedContacts.length >= 1,
+              hidden: selectedContacts.length < 1,
+              displayName: selectedContacts.length  === 1
+                ? "Eliminar Contacto"
+                : "Eliminar Contactos",
+              execute: () => {
+                contactActions({ type: "DELETE_CONTACTS", payload: selectedContacts });
+                setSelectedContacts([]);
+              },
+            }
           ],
         },
       },
     });
-  }, [selectionMode]);
+  }, [selectionMode, selectedContacts]);
 
   /** Renderizar el contacto indicado
    *  @description Guarda en {@link touchedContact} el usuario que se toco e indica que hay que renderizar el componente */

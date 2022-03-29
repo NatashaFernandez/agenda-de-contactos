@@ -9,14 +9,14 @@ import Layout from "./Layout";
 import AddContact from "../contact/AddContact";
 import EditContact from "../contact/EditContact";
 import AppContexProvider from "../provider/AppContextProvider";
-import contacstDemo from "../../assets/json/contacts-demo.json";
+import contactsDemo from "../../assets/json/contacts-demo.json";
 
 function App() {
   /** Base de contactos y despachador de acciones
    * uso un useReducer para tener un estado donde guardar contactos y un despachador de acciones con el cual
    * poder realizar un ABM de contactos
    */
-  const [contacts, dispathContactActions] = useReducer(ContactActionsReducer, contacstDemo);
+  const [contacts, dispathContactActions] = useReducer(ContactActionsReducer, contactsDemo);
 
   const useContact = (id) => contacts.find((contacto) => contacto.id === id);
 
@@ -39,7 +39,7 @@ function App() {
             element={
               <ContactDetail
                 getContact={useContact}
-                contacActions={dispathContactActions}
+                contactActions={dispathContactActions}
                 onGoBack={() => console.log("atras")}
               />
             }
