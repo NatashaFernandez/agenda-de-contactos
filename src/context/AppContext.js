@@ -1,8 +1,40 @@
 import { createContext, useContext } from "react";
 
+/**
+ * @typedef Action
+ * @type {{
+ *    displayName: string,
+ *    execute: () => {},
+ *    icon?: string,
+ *    enabled?: boolean,
+ *    hidden?: boolean,
+ *    useDialog?: boolean,
+ *    content?: string,
+ * }}
+ */
+
+/** App
+ * @typedef App
+ * @type {{
+ *    header: {
+ *      type?:"default"|"overlay"|"search",
+ *      onSearch?: (seachText:string, isSearching: boolean) => string,
+ *      navigation: {title: string, action: null|Action },
+ *      toolbar: {
+ *        promotedActions: Action[],
+ *        menuActions: Action[],
+ *      },
+ *    },
+ * }}
+ */
+
+/** Estado inicial del la applicacion
+ * @type {App}
+ */
 const initialAppContextValue = {
   header: {
-    navigation: {title: "", action: null },
+    type: "default",
+    navigation: { title: "", action: null },
     toolbar: {
       promotedActions: [],
       menuActions: [],
@@ -12,12 +44,8 @@ const initialAppContextValue = {
 
 const AppContex = createContext({
   ...initialAppContextValue,
-  update: ({
-    header: {
-      navigation: {title, action},
-      toolbar: {promotedActions, menuActions}
-    }
-  }) => {},
+  /** @type {(changes:App) => void} actualiza el contexto de la applicacion*/
+  update: (changes) => {},
 });
 const useAppContext = () => useContext(AppContex);
 
