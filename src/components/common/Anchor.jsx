@@ -1,6 +1,3 @@
-import { useState } from "react";
-
-
 /**
  * Anchor con tooltip.
  * @param {{
@@ -13,21 +10,38 @@ import { useState } from "react";
  * }} props
  * @returns
  */
-const Anchor = ({className, label, tooltip, icon, href, toolTipDirection}) => {
-    const [shouldShowTooltip, setShoudShowToolTip] = useState(false);
-
-    return(
-        <div className="anchor-container" htmlFor={tooltip? tooltip : label?label: 'icon'}>
-            {shouldShowTooltip && tooltip?
-                <span className={`anchor-tooltip ${toolTipDirection}`}>{tooltip}</span>:
-            <></>}
-            <a href={href} 
-              className={`anchor${className? ' '+className:''}`}
-              onMouseEnter={() => {if(tooltip)setShoudShowToolTip(true)}} 
-              onMouseLeave={() => {if(tooltip)setShoudShowToolTip(false)}}
-            >{icon && <img className="anchor-icon" src={icon} alt=""/>}{label}</a>
-        </div>
-    );
-}
+const Anchor = ({
+  className,
+  label,
+  tooltip,
+  icon,
+  href,
+  toolTipDirection,
+  disabled,
+}) => {
+  return (
+    <>
+      {tooltip ? (
+        <a
+          className={className || "button"}
+          href={href}
+          disabled={disabled}
+          tooltip={tooltip}
+          tooltip-direction={toolTipDirection || "top"}
+        >
+          {icon && <img className="button-icon" src={icon} alt="" />}
+          {label}
+        </a>
+      ) : (
+        <a className={className || "button"} href={href}>
+          {" "}
+          disabled={disabled}
+          {icon && <img className="button-icon" src={icon} alt="" />}
+          {label}
+        </a>
+      )}
+    </>
+  );
+};
 
 export default Anchor;

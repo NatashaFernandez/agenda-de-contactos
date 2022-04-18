@@ -1,18 +1,33 @@
+const ControlInput = ({
+  attributeName,
+  label,
+  type,
+  placeHolder,
+  value,
+  onChangeHandler,
+  isRequired,
+}) => {
+  const fireOnChangeHandler = (e) => onChangeHandler(e.target.value);
 
-const ControlInput = ({attributeName, label, type, placeHolder, value, onChangeHandler, isRequired}) => {
-
-    const fireOnChangeHandler = ({target}) => {
-        onChangeHandler(target.value);
-    }
-
-    return(
-        <div className="control">
-            {label && <label className="control__label" htmlFor={attributeName}>{label}</label>}
-            <input className="control__input" type={type||"text"} id={attributeName}
-                name={attributeName} placeholder={placeHolder||''} isrequired={isRequired}
-                value={value} onChange={fireOnChangeHandler}/>
-        </div>
-    )
-}
+  return (
+    <div className="form-control">
+      {label && (
+        <label className="form-control_label" htmlFor={attributeName}>
+          {label}
+        </label>
+      )}
+      <input
+        className="form-control_input"
+        type={type || "text"}
+        id={attributeName}
+        name={attributeName}
+        placeholder={placeHolder || ""}
+        isrequired={isRequired}
+        value={value}
+        onChange={fireOnChangeHandler}
+      />
+    </div>
+  );
+};
 
 export default ControlInput;

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Button from "./Button";
 
 /**
  *
@@ -10,18 +11,29 @@ import { useNavigate } from "react-router-dom";
  * }} param0
  * @returns
  */
-const FloatingButton = ({ title, img, urlToAction, shouldReplace}) => {
+const FloatingButton = ({
+  title,
+  img,
+  urlToAction,
+  shouldReplace,
+  className,
+  tooltip,
+}) => {
   const navigate = useNavigate();
-  
+
   const goToAction = () => {
-    navigate(urlToAction, {replace: shouldReplace});
+    navigate(urlToAction, { replace: shouldReplace });
   };
 
   return (
-    <button className="body__action-btn" onClick={goToAction}>
-      {img ? <img src={img} alt="" /> : "+"}
-      {`${title ? title : ""}`}
-    </button>
+    <Button
+      className={`${className} --is-floating-btn`}
+      action={goToAction}
+      icon={img}
+      label={title}
+      tooltip={tooltip}
+      toolTipDirection={"left"}
+    />
   );
 };
 
