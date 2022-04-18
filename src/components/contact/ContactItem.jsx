@@ -6,18 +6,15 @@ const ContactItem = ({
   onTouch,
   isSelectionModeActive,
   onLongTouch,
+  className,
 }) => {
-  let AvatarEmpty = "";
-
   const [isChecked, setChecket] = useState(false);
-  if (contact.name.length) AvatarEmpty += contact.name.trim()[0].toUpperCase();
-  if (contact.lastName.length)
-    AvatarEmpty += contact.lastName.trim()[0].toUpperCase();
 
   const fireOnTouch = () => {
     if (isSelectionModeActive) {
-      setChecket(!isChecked);
-      onLongTouch(contact);
+      const check = !isChecked;
+      setChecket(check);
+      onLongTouch(contact, check);
     } else {
       onTouch(contact);
       setChecket(false);
@@ -33,7 +30,11 @@ const ContactItem = ({
   }, [isSelectionModeActive]);
 
   return (
-    <li id={contact.id} onClick={fireOnTouch} className="contact-item">
+    <li
+      id={contact.id}
+      onClick={fireOnTouch}
+      className={`contact-item ${isSelectionModeActive ? className : ""}`}
+    >
       <input
         type={"checkbox"}
         checked={isChecked}
@@ -42,14 +43,12 @@ const ContactItem = ({
           isSelectionModeActive ? "" : "is-not-visible"
         }`}
       />
-      <div
-        className={`contact-item__media__avatar-icon${
-          !contact.avatar && "--empty"
-        }`}
-      >
-        {!contact.avatar ? AvatarEmpty : contact.avatar}
-      </div>
-      <h4 className="contact-item__media-info_name">{`${contact.name} ${contact.lastName}`}</h4>
+      <img
+        className="contact-item_avatar"
+        src={contact.avatar.picture}
+        alt=""
+      />
+      <h4 className="contact-item_info">{`${contact.name} ${contact.lastName}`}</h4>
     </li>
   );
 };

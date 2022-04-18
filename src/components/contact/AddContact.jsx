@@ -1,70 +1,69 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ContactForm from "./ContactForm";
-import { useAppContext } from "../../context/AppContext";
-import BackButton from "../common/BackButton";
+import PictureChanger from "../common/PictureChanger";
 
 const AddContact = ({ addContact }) => {
-  const app = useAppContext();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    app.update({
-      header: {
-        navigation: {action: <BackButton/>, title: "Agregar contacto"},
-        toolbar: {
-          promotedActions: [],
-          menuActions: [],
-        },
-      }
-    });
-  }, []);
-
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [contact, setContact] = useState({
+    avatar: { picture: "", isDefault: true },
+    name: "",
+    lastName: "",
+    phoneNumber: "",
+  });
 
   /**atributos del contacto a usar en el formulario*/
   const contactAttributes = {
+    avatar: {
+      getValue: () => contact.avatar.picture,
+      setValue: (avatar) => setContact({ ...contact, avatar }),
+      label: "Avatar",
+      hasOwnControlInput: true,
+    },
     name: {
-      getValue: () => name,
-      setValue: (newValue) => setName(newValue),
+      getValue: () => contact.name,
+      setValue: (name) => setContact({ ...contact, name }),
       label: "Nombre",
     },
     lastName: {
-      getValue: () => lastName,
-      setValue: (newValue) => setLastName(newValue),
+      getValue: () => contact.lastName,
+      setValue: (lastName) => setContact({ ...contact, lastName }),
       label: "Apellido",
     },
     phoneNumber: {
-      getValue: () => phoneNumber,
-      setValue: (newValue) => setPhoneNumber(newValue),
+      getValue: () => contact.phoneNumber,
+      setValue: (phoneNumber) => setContact({ ...contact, phoneNumber }),
       label: "Telefono",
     },
   };
 
-  /**Obtiene las entries del objeto {@linkcode contactAttributes} */
-  const getContactAttributesCollection = () =>
-    Object.entries(contactAttributes);
-
-  /**genera un contacto con los nombres de attributos para un contacto y sus valores y lo guarda en la lista*/
   const saveContact = () => {
-    //reducir los atributos de la coleccion a un objeto contacto de clave-valor para ser añadido a la lista
-    const newContact = getContactAttributesCollection().reduce(
-      (contact, [attributeName, attribute]) => {
-        contact[attributeName] = attribute.getValue();
-        return contact;
-      },
-      {}
-    );
-
+    const newContact = contact;
+    if (contact.avatar.picture === "") {
+      let AvatarLetters = contact.name || contact.lastName;
+      if (AvatarLetters) {
+        AvatarLetters = AvatarLetters[0].toUpperCase();
+        const picture = PictureChanger.createDefaultPicture(AvatarLetters);
+        newContact.avatar = { picture, isDefault: true };
+      }
+    }
     addContact({ type: "ADD_CONTACT", payload: newContact });
+    navigate(`/view/${contact.id}`, { replace: true });
   };
 
   return (
     <ContactForm
       title="Agregar contacto"
-      contactAttributes={getContactAttributesCollection()}
+      contactAttributes={contactAttributes}
       onSubmitContact={saveContact}
-    />
+      onCancelInteractios={() => navigate("/", { replace: true })}
+    >
+      <PictureChanger
+        avatar={contact.avatar}
+        onSetPicture={(avatar) => contactAttributes.avatar.setValue(avatar)}
+      />
+    </ContactForm>
   );
 };
 

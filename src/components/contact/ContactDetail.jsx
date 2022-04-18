@@ -1,27 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import editIcon from "../../assets/Icons/edit-regular.svg";
 import messageIcon from "../../assets/Icons/envelope-solid.svg";
 import phoneIcon from "../../assets/Icons/phone-solid.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
 import { useAppContext } from "../../context/AppContext";
-import { useEffect } from "react";
 import Anchor from "../common/Anchor";
-import BackButton from "../common/BackButton";
+import ContactMedia from "./ContactMedia";
 
 const ContactDetail = ({ contactActions, getContact }) => {
   const contactid = useParams("id");
   const app = useAppContext();
-  const [contact, setContact] = useState(getContact(contactid.id));
   const navigate = useNavigate();
+  const [contact, setContact] = useState(getContact(contactid.id));
+
   useEffect(() => {
     app.update({
       header: {
-        navigation: { action: <BackButton />, title: "Contacto" },
+        type: "overlay",
+        navigation: {
+          action: {
+            icon: "back",
+            execute: () => navigate("/", { replace: true }),
+          },
+          title: "Contacto",
+        },
         toolbar: {
           promotedActions: [],
           menuActions: [
             {
               displayName: "Eliminar Contacto",
+              useDialog: true,
+              content: "¿Estas seguro que deseas eliminar el contacto?",
               execute: () => {
                 contactActions({ type: "DELETE_CONTACT", payload: contact });
                 navigate(-1);
@@ -35,33 +45,51 @@ const ContactDetail = ({ contactActions, getContact }) => {
 
   return (
     <>
-      <section className="contact-detail__media">
-        <span className="contact-detail__media__avatar--empty">{`${contact.name[0].toUpperCase()}${contact.lastName[0].toUpperCase()}`}</span>
-        <h2 className="contact-detail__media__fullname">{`${contact.name.toUpperCase()} ${contact.lastName.toUpperCase()}`}</h2>
-      </section>
-      <section className="contact_info">
-        <div className="contact_info--phone">
-          <div className="contact_info--display">
-            <Anchor
-              className="contact_info--heigth"
-              href={`tel:${contact.phoneNumber}`}
-              icon={phoneIcon}
-              tooltip={"Llamar al contacto"}
-              toolTipDirection="bottom-right"
-            />
-            <div className="divider"></div>
-            <p>{contact.phoneNumber}</p>
-          </div>
-          <Anchor
-            className="contact_info--heigth"
-            href={`sms:${contact.phoneNumber}`}
-            icon={messageIcon}
-            tooltip="Enviar SMS"
-            toolTipDirection="left"
+      {!contact ? (
+        <Navigate to="/" replace />
+      ) : (
+        <main className="app-main">
+          <ContactMedia
+            avatar={contact.avatar}
+            onLoadPicture={() => {}}
+            editMode={true}
+            name={contact.name}
+            lastName={contact.lastName}
           />
-        </div>
-      </section>
-      <FloatingButton urlToAction={`/edit/${contact.id}`} />
+          <section className="contact-info">
+            <ul className="contact-info_list">
+              <li className="contact-info_item">
+                <div className="contact-info_content">
+                  <Anchor
+                    className="contact-info_action call-phone"
+                    href={`tel:${contact.phoneNumber}`}
+                    icon={phoneIcon}
+                    tooltip={"Llamar al contacto"}
+                    toolTipDirection="bottom-right"
+                  />
+                  <div className="contact-info_divider" />
+                  <p className="contact-info_info">{contact.phoneNumber}</p>
+                </div>
+                <div className="contact-info_actions">
+                  <Anchor
+                    className="contact-info_action"
+                    href={`sms:${contact.phoneNumber}`}
+                    icon={messageIcon}
+                    tooltip="Enviar SMS"
+                    toolTipDirection="bottom-left"
+                  />
+                </div>
+              </li>
+            </ul>
+          </section>
+          <FloatingButton
+            className="app-main_action"
+            urlToAction={`/edit/${contact.id}`}
+            img={editIcon}
+            tooltip={"Editar contacto"}
+          />
+        </main>
+      )}
     </>
   );
 };

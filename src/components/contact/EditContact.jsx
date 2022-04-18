@@ -1,75 +1,76 @@
+import { useState } from "react";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import ContactForm from "./ContactForm";
-import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
-import BackButton from "../common/BackButton";
+import PictureChanger from "../common/PictureChanger";
 
 const EditContact = ({ contactActions, getContact }) => {
-  const app = useAppContext();
-
-  useEffect(() => {
-    app.update({
-      header: {
-        navigation: {action: <BackButton/>, title: "Editar contacto"},
-        toolbar: {
-          promotedActions: [],
-          menuActions: [],
-        },
-      }
-    });
-  }, []);
-
   let contactid = useParams("id");
+  const navigate = useNavigate();
   const [contact, setContact] = useState(getContact(contactid.id));
-
-  const [name, setName] = useState(contact.name);
-  const [lastName, setLastName] = useState(contact.lastName);
-  const [phoneNumber, setPhoneNumber] = useState(contact.phoneNumber);
 
   /**atributos del contacto a usar en el formulario*/
   const contactAttributes = {
+    avatar: {
+      getValue: () => contact.avatar.picture,
+      setValue: (avatar) => setContact({ ...contact, avatar }),
+      label: "Avatar",
+      hasOwnControlInput: true,
+    },
     name: {
-      getValue: () => name,
-      setValue: (newValue) => setName(newValue),
+      getValue: () => contact.name,
+      setValue: (name) => setContact({ ...contact, name }),
       label: "Nombre",
     },
     lastName: {
-      getValue: () => lastName,
-      setValue: (newValue) => setLastName(newValue),
+      getValue: () => contact.lastName,
+      setValue: (lastName) => setContact({ ...contact, lastName }),
       label: "Apellido",
     },
     phoneNumber: {
-      getValue: () => phoneNumber,
-      setValue: (newValue) => setPhoneNumber(newValue),
+      getValue: () => contact.phoneNumber,
+      setValue: (phoneNumber) => setContact({ ...contact, phoneNumber }),
       label: "Telefono",
     },
   };
 
-  /**Obtiene las entries del objeto {@linkcode contactAttributes} */
-  const getContactAttributesCollection = () =>
-    Object.entries(contactAttributes);
-
-  /**genera un contacto con los nombres de attributos para un contacto y sus valores y lo guarda en la lista*/
   const saveContact = () => {
-    //reducir los atributos de la coleccion a un objeto contacto de clave-valor para ser añadido a la lista
-    const editedContact = getContactAttributesCollection().reduce(
-      (contact, [attributeName, attribute]) => {
-        contact[attributeName] = attribute.getValue();
-        return contact;
-      },
-      {}
-    );
-
-    editedContact.id = contact.id;
-    contactActions({ type: "EDIT_CONTACT", payload: editedContact });
+    const editedContact = contact;
+    if (contact.avatar.picture === "" || contact.avatar.isDefault) {
+      let AvatarLetters = contact.name || contact.lastName;
+      if (AvatarLetters) {
+        AvatarLetters = AvatarLetters[0].toUpperCase();
+        const picture = PictureChanger.createDefaultPicture(AvatarLetters);
+        editedContact.avatar = { picture, isDefault: true };
+      }
+    }
+    contactActions({ type: "EDIT_CONTACT", payload: contact });
+    navigate(`/view/${contact.id}`, { replace: true });
   };
 
   return (
-    <ContactForm
-      title="Editar contacto"
-      contactAttributes={getContactAttributesCollection()}
-      onSubmitContact={saveContact}
-    />
+    <>
+      {!contact ? (
+        <Navigate to="/" replace />
+      ) : (
+        <main className="app-main">
+          <ContactForm
+            title="Editar contacto"
+            contactAttributes={contactAttributes}
+            onSubmitContact={saveContact}
+            onCancelInteractios={() =>
+              navigate(`/view/${contact.id}`, { replace: true })
+            }
+          >
+            <PictureChanger
+              avatar={contact.avatar}
+              onSetPicture={(newAvatar) =>
+                contactAttributes.avatar.setValue(newAvatar)
+              }
+            />
+          </ContactForm>
+        </main>
+      )}
+    </>
   );
 };
 
