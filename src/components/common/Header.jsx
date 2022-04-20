@@ -4,7 +4,7 @@ import HeaderNav from "./HeaderNav";
 import HeaderToolbar from "./HeaderToolbar";
 
 const Header = () => {
-  const { header } = useAppContext();
+  const {header } = useAppContext();
   const [search, setSearch] = useState({ query: "", isSearching: false });
 
   useEffect(() => {
@@ -19,6 +19,27 @@ const Header = () => {
         header.type !== "default" ? `--is-${header.type}-type` : ""
       }`}
     >
+      <HeaderNav
+        action={header.type === "search" && search.query?
+        {
+          displayName: `Cancelar busqueda`,
+          aditionalClassName: "--has-contrast-background",
+          icon: "cancel",
+          execute: () => {
+            setSearch({
+              query: "",
+              isSearching: false,
+            });
+          }
+        }: header.navigation.action}
+        title={
+          header.type === "search"
+            ? search.query
+              ? ""
+              : "Buscar contactos"
+            : header.navigation.title
+        }
+      />
       {header.type === "search" && (
         <input
           className="app-header_search"
@@ -33,19 +54,8 @@ const Header = () => {
               setSearch({ query: "", isSearching: true });
             }
           }}
-          onBlur={() => setSearch({ query: "", isSearching: false })}
         />
       )}
-      <HeaderNav
-        action={header.navigation.action}
-        title={
-          !search.isSearching
-            ? header.navigation.title
-            : search.query
-            ? ""
-            : "Buscar..."
-        }
-      />
       <HeaderToolbar
         promotedActions={header.toolbar.promotedActions}
         menuActions={header.toolbar.menuActions}

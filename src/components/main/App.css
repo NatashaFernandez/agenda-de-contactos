@@ -84,9 +84,8 @@ main {
   border-radius: 50px;
 }
 
-.app-header_search:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-search-cancel-button {
-  position: absolute;
-  left: 25px;
+.app-header_search::-webkit-search-cancel-button {
+  display: none;
 }
 
 .header-navigation {
@@ -103,6 +102,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
 .header-navigation_icon {
@@ -116,6 +116,13 @@ main {
   height: 30px;
   padding: 5px;
 }
+.--has-contrast-background{
+  background-color: #36363630;
+}
+.--has-contrast-background:hover{
+  background-color: #36363669;
+}
+
 .header-navigation_icon img {
   height: 22px;
   padding: 5px;
@@ -359,12 +366,12 @@ h2 {
 }
 
 [tooltip-direction="top"]:not([tooltip=""]):hover::after {
-  transform: translateY(-50px);
-  left: -20px;
+  transform: translate(-50%, -60px);
+  left: 50%;
 }
 [tooltip-direction="bottom"]:not([tooltip=""]):hover::after {
-  transform: translateY(50px);
-  left: -20px;
+  transform: translate(-50%, 50px);
+  left: 50%;
 }
 [tooltip-direction="right"]:not([tooltip=""]):hover::after {
   left: 35%;
@@ -481,6 +488,8 @@ li.contact-item:hover {
   align-self: center;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .contact-media_avatar {
@@ -491,6 +500,8 @@ li.contact-item:hover {
   align-self: center;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .contact-media_avatar.--is-empty {
@@ -668,6 +679,8 @@ ul.contact-info_list {
   align-self: center;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .picture-changer_input {

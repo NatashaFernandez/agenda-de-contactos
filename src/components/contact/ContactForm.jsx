@@ -20,6 +20,7 @@ const ContactForm = ({
         navigation: {
           action: {
             icon: "cancel",
+            displayName: "Cancelar cambios",
             execute: onCancelInteractios,
             useDialog: hasMadeChages,
             content: "¿Esta seguro que desea descartar sus cambios?",

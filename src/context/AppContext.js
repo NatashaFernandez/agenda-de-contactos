@@ -10,6 +10,7 @@ import { createContext, useContext } from "react";
  *    hidden?: boolean,
  *    useDialog?: boolean,
  *    content?: string,
+ *    aditionalClassName?: string
  * }}
  */
 

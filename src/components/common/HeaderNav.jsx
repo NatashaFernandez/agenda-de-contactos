@@ -21,10 +21,10 @@ const HeaderNav = ({ title, action }) => {
             <BackButton onBack={doAction} />
           ) : action && action.icon === "cancel" ? (
             <Button
-              className="header-navigation_icon"
+             className={`header-navigation_icon${action.aditionalClassName? " "+action.aditionalClassName:""}`}
               action={doAction}
               icon={cancelIcon}
-              tooltip="Cancelar cambios"
+              tooltip={action.displayName}
               toolTipDirection="bottom-right"
             />
           ) : (
