@@ -1,54 +1,36 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import ItemResult from "../common/ItemResult";
 
 const ContactItem = ({
   contact,
   onTouch,
-  isSelectionModeActive,
   onLongTouch,
-  className,
+  isSelected,
+  matchQuery,
 }) => {
-  const [isChecked, setChecket] = useState(false);
-
-  const fireOnTouch = () => {
-    if (isSelectionModeActive) {
-      const check = !isChecked;
-      setChecket(check);
-      onLongTouch(contact, check);
-    } else {
-      onTouch(contact);
-      setChecket(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!isSelectionModeActive) {
-      setChecket(false);
-    }
-
-    return () => setChecket(false);
-  }, [isSelectionModeActive]);
+  let fullName = `${contact.name} ${contact.lastName}`;
+  let info = matchQuery && matchQuery.match(/\d+/)? contact.phoneNumber:fullName;
 
   return (
     <li
       id={contact.id}
-      onClick={fireOnTouch}
-      className={`contact-item ${isSelectionModeActive ? className : ""}`}
+      onClick={() => onTouch(contact)}
+      className={`contact-item ${isSelected ? "--is-selected" : ""}`}
     >
-      <input
-        type={"checkbox"}
-        checked={isChecked}
-        readOnly
-        className={`contact-item_selector ${
-          isSelectionModeActive ? "" : "is-not-visible"
-        }`}
-      />
       <img
         className="contact-item_avatar"
         src={contact.avatar.picture}
         alt=""
       />
-      <h4 className="contact-item_info">{`${contact.name} ${contact.lastName}`}</h4>
+      <h4 className="contact-item_info">
+        {!matchQuery ? (
+          fullName
+        ) : (
+          <ItemResult
+            info={info} 
+            matchQuery={matchQuery}
+            defaultInfo={fullName}/>
+        )}
+      </h4>
     </li>
   );
 };
