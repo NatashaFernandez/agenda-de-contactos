@@ -2,48 +2,67 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import HeaderNav from "./HeaderNav";
 import HeaderToolbar from "./HeaderToolbar";
+import menuIcon from "../../assets/Icons/menu.svg";
 
 const Header = () => {
-  const {header } = useAppContext();
+  const app = useAppContext();
   const [search, setSearch] = useState({ query: "", isSearching: false });
 
   useEffect(() => {
-    if (header.onSearch && header.type === "search") {
-      header.onSearch(search);
+    if (app.header.onSearch && app.header.type === "search") {
+      app.header.onSearch(search);
     }
-  }, [search, header]);
+  }, [search, app]);
+
 
   return (
     <header
       className={`app-header ${
-        header.type !== "default" ? `--is-${header.type}-type` : ""
+        app.header.type !== "default" ? `--is-${app.header.type}-type` : ""
       }`}
     >
       <HeaderNav
-        action={header.type === "search" && search.query?
-        {
-          displayName: `Cancelar busqueda`,
-          aditionalClassName: "--has-contrast-background",
-          icon: "cancel",
-          execute: () => {
-            setSearch({
-              query: "",
-              isSearching: false,
-            });
-          }
-        }: header.navigation.action}
+        action={
+          app.header.type === "search" && search.query
+            ? {
+                displayName: `Cancelar busqueda`,
+                aditionalClassName: "--has-contrast-background",
+                icon: "cancel",
+                execute: () => {
+                  setSearch({
+                    query: "",
+                    isSearching: false,
+                  });
+                },
+              }
+            : app.header.navigation.action == null
+            ? {
+                displayName: "Abrir panel lateral",
+                icon: menuIcon,
+                execute: () => {
+                  app.update({
+                    sidebar:{
+                      ...app.layout,
+                      showSidebar: true,
+                    }
+                  })
+                },
+              }
+            : app.header.navigation.action
+        }
         title={
-          header.type === "search"
+          app.header.type === "search"
             ? search.query
               ? ""
               : "Buscar contactos"
-            : header.navigation.title
+            : app.header.navigation.title
         }
       />
-      {header.type === "search" && (
+      {app.header.type === "search" && (
         <input
           className="app-header_search"
           type="search"
+          spellCheck="false"
           value={search.query}
           onClickCapture={() => setSearch({ ...search, isSearching: true })}
           onChange={(e) =>
@@ -57,8 +76,8 @@ const Header = () => {
         />
       )}
       <HeaderToolbar
-        promotedActions={header.toolbar.promotedActions}
-        menuActions={header.toolbar.menuActions}
+        promotedActions={app.header.toolbar.promotedActions.filter(Boolean)}
+        menuActions={app.header.toolbar.menuActions.filter(Boolean)}
       />
     </header>
   );
