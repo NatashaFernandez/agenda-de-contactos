@@ -20,12 +20,17 @@ import { createContext, useContext } from "react";
  *    header: {
  *      type?:"default"|"overlay"|"search",
  *      onSearch?: (seachText:string, isSearching: boolean) => string,
- *      navigation: {title: string, action: null|Action },
+ *      navigation: {title: string, action: Action },
  *      toolbar: {
  *        promotedActions: Action[],
  *        menuActions: Action[],
  *      },
- *    },
+ *    }
+ *    sidebar: {
+ *      showSidebar?: Boolean,
+ *      actions?: Action[]
+ *      sidebarHeader?: React.Component||null,
+ *    }
  * }}
  */
 
@@ -40,6 +45,9 @@ const initialAppContextValue = {
       promotedActions: [],
       menuActions: [],
     },
+  },
+  sidebar: {
+    showSidebar: false,
   },
 };
 
