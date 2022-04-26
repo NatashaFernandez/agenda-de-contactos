@@ -22,7 +22,7 @@ const ControlInput = ({
         id={attributeName}
         name={attributeName}
         placeholder={placeHolder || ""}
-        isrequired={isRequired}
+        required={isRequired}
         value={value}
         onChange={fireOnChangeHandler}
       />
