@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import ContactForm from "./ContactForm";
 import PictureChanger from "../common/PictureChanger";
+import { useContactsContext } from "../../context/UserContactsContext";
 
-const EditContact = ({ contactActions, getContact }) => {
+const EditContact = () => {
   let contactid = useParams("id");
+  const { contactActions, getContact } = useContactsContext();
   const navigate = useNavigate();
   const [contact, setContact] = useState(getContact(contactid.id));
 

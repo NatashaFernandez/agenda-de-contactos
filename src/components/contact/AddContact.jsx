@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ContactForm from "./ContactForm";
 import PictureChanger from "../common/PictureChanger";
+import { useContactsContext } from "../../context/UserContactsContext";
 
 const AddContact = ({ addContact }) => {
   const navigate = useNavigate();
-
+  const {contactActions } = useContactsContext();
   const [contact, setContact] = useState({
     avatar: { picture: "", isDefault: true },
     name: "",
@@ -48,7 +49,7 @@ const AddContact = ({ addContact }) => {
         newContact.avatar = { picture, isDefault: true };
       }
     }
-    addContact({ type: "ADD_CONTACT", payload: newContact });
+    contactActions({ type: "ADD_CONTACT", payload: newContact });
     navigate(`/view/${contact.id}`, { replace: true });
   };
 

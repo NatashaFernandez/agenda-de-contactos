@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import editIcon from "../../assets/Icons/edit-regular.svg";
-import messageIcon from "../../assets/Icons/envelope-solid.svg";
+import messageIcon from "../../assets/Icons/message.svg";
 import phoneIcon from "../../assets/Icons/phone-solid.svg";
 import { useNavigate, useParams, Navigate } from "react-router-dom";
 import FloatingButton from "../common/FloatingButton";
 import { useAppContext } from "../../context/AppContext";
 import Anchor from "../common/Anchor";
 import ContactMedia from "./ContactMedia";
+import { useContactsContext } from "../../context/UserContactsContext";
 
-const ContactDetail = ({ contactActions, getContact }) => {
+const ContactDetail = () => {
+
+  const { contactActions, getContact } = useContactsContext();
   const contactid = useParams("id");
   const app = useAppContext();
   const navigate = useNavigate();
