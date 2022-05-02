@@ -3,7 +3,6 @@ import ItemResult from "../common/ItemResult";
 const ContactItem = ({
   contact,
   onTouch,
-  onLongTouch,
   isSelected,
   matchQuery,
 }) => {

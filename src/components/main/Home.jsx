@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { useAuthUserContext } from "../../context/AuthentificatedUserContext";
 import logoutIcon from "../../assets/Icons/logout.svg"
 
-const Home = ({contacts, dispathContactActions}) => {
+const Home = () => {
   const auth = useAuthUserContext();
 
   return(
@@ -21,10 +21,7 @@ const Home = ({contacts, dispathContactActions}) => {
           }
         ]
       }}/>
-      <ContactList
-        contacts={contacts}
-        contactActions={dispathContactActions}
-      />
+      <ContactList />
     </>
   )
 }

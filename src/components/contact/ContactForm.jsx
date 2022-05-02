@@ -60,6 +60,7 @@ const ContactForm = ({
     }
   }, [contactAttributes, receivedAttributes, hasMadeChages, onSubmitContact]);
 
+  // filtro los atributos que no tengan controles para usar el control input
   const attributeAsControlsFilter = ([, attr]) => !attr.hasOwnControlInput;
 
   return (

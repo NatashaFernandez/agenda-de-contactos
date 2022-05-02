@@ -19,7 +19,7 @@ import { createContext, useContext } from "react";
  * @type {{
  *    header: {
  *      type?:"default"|"overlay"|"search",
- *      onSearch?: (seachText:string, isSearching: boolean) => string,
+ *      onSearch?: (seachText:string, isSearching: boolean) => void,
  *      navigation: {title: string, action: Action },
  *      toolbar: {
  *        promotedActions: Action[],

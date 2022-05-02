@@ -9,12 +9,11 @@ import noContactsIcon from "../../assets/Images/no-contacts.png";
 import trashIcon from "../../assets/Icons/trash-solid.svg";
 
 const ContactList = () => {
-
   let navigate = useNavigate();
   const appContextRef = useRef(useAppContext());
-  const {contacts, contactActions } = useContactsContext();
+  const contactsContextRef = useRef(useContactsContext());
 
-  const [selectionMode, setSelectionMode] = useState(false);
+  const [isSelectionModeActive, setSelectionMode] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const alphabet = useRef([]);
   const [onHeaderSearch, setOnHeaderSearch] = useState({
@@ -25,7 +24,7 @@ const ContactList = () => {
 
   const enterInSelectionMode = (contact, isChecked) => {
     if (isChecked) {
-      if (!selectionMode) {
+      if (!isSelectionModeActive) {
         setSelectionMode(true);
       }
       setSelectedContacts([...selectedContacts, contact]);
@@ -36,14 +35,15 @@ const ContactList = () => {
     }
   };
 
-  const withFullNameOrPhoneFilter = ({ name, lastName, phoneNumber }) => {
+  const withFullNameOrPhoneFilter = (contact, currentQuery) => {
+    const { name, lastName, phoneNumber } = contact;
     const fullName = `${name} ${lastName}`.toLowerCase();
 
-    if (fullName.includes(onHeaderSearch.query.toLowerCase())) {
+    if (fullName.includes(currentQuery.toLowerCase())) {
       return true;
     }
 
-    if (phoneNumber.includes(onHeaderSearch.query)) {
+    if (phoneNumber.includes(currentQuery)) {
       return true;
     }
 
@@ -56,15 +56,27 @@ const ContactList = () => {
   useEffect(() => {
     appContextRef.current.update({
       header: {
-        type: selectionMode ? "defaut" : "search",
+        type: isSelectionModeActive ? "defaut" : "search",
         onSearch: (search) => {
-          if (search.isSearching && search.query) {
-            const findedContacts = contacts.filter(withFullNameOrPhoneFilter);
-            setOnHeaderSearch({ ...search, results: findedContacts });
-          } else setOnHeaderSearch({ ...search, results: [] });
+          if (search.isSearching && search.query !== '') {
+            if(search.query !== onHeaderSearch.query){
+              const queryResult = contactsContextRef.current.contacts.filter((contact) =>
+                withFullNameOrPhoneFilter(contact, search.query)
+              );
+              setOnHeaderSearch({
+                ...search,
+                results: queryResult,
+              });
+            }
+          } else
+            setOnHeaderSearch({
+              isSearching: false,
+              query: '',
+              results: [],
+            });
         },
         navigation: {
-          action: selectionMode
+          action: isSelectionModeActive
             ? {
                 displayName: `Cancelar seleccion`,
                 icon: "cancel",
@@ -74,7 +86,7 @@ const ContactList = () => {
                 },
               }
             : null,
-          title: !selectionMode
+          title: !isSelectionModeActive
             ? "Contactos"
             : !selectedContacts.length
             ? "Seleccionar contactos"
@@ -84,7 +96,7 @@ const ContactList = () => {
         },
         toolbar: {
           promotedActions: [
-            selectionMode && selectedContacts.length
+            isSelectionModeActive && selectedContacts.length
               ? {
                   icon: trashIcon,
                   enabled: selectedContacts.length >= 1,
@@ -100,7 +112,7 @@ const ContactList = () => {
                       : "el contacto seleccionado"
                   }?`,
                   execute: () => {
-                    contactActions({
+                    contactsContextRef.current.contactActions({
                       type: "DELETE_CONTACTS",
                       payload: selectedContacts,
                     });
@@ -111,47 +123,59 @@ const ContactList = () => {
               : null,
           ],
           menuActions: [
-            selectedContacts.length !== contacts.length
+            !isSelectionModeActive
+              ? {
+                  displayName: "Seleccionar",
+                  execute: () => {
+                    setSelectedContacts([]);
+                    setSelectionMode(true);
+                  },
+                }
+              : null,
+            selectedContacts.length !== contactsContextRef.current.length
               ? {
                   icon: "../../assets/Icons/select.svg",
-                  displayName: !selectionMode
-                    ? "Seleccionar contactos"
-                    : "Seleccionar todos",
+                  displayName: "Seleccionar todos",
                   execute: () => {
-                    if (!selectionMode) {
-                      setSelectedContacts([]);
+                    if (!isSelectionModeActive) {
                       setSelectionMode(true);
-                    } else {
-                      setSelectedContacts(contacts);
                     }
+                    setSelectedContacts(contactsContextRef.current.contacts);
                   },
                 }
               : null,
           ],
         },
-      }
+      },
     });
-  }, [selectionMode, selectedContacts, contacts]);
+    // eslint-disable-next-line
+  }, [isSelectionModeActive, selectedContacts]);
 
   return (
     <main className="app-main">
       <ul className="contact-list">
-        {contacts.length >= 1 ? (
-          (onHeaderSearch.isSearching && onHeaderSearch.query
-            ? contacts.filter(withFullNameOrPhoneFilter)
-            : contacts
-          )
+        {contactsContextRef.current.contacts.length >= 1 ? (
+          // si esta buscando y hay algo para buscar entonces muestro los resultados
+          (onHeaderSearch.isSearching &&
+          onHeaderSearch.query !== ''
+            ? onHeaderSearch.results
+            : contactsContextRef.current.contacts
+          ) // del array resutante ordeno por el nombre completo de forma acendente
             .sort(withFullNameAscSorting)
             .map((contact, index) => {
-              if (!index) {
-                alphabet.current.length = index;
+              // inicializo el array de letras del alfabeto en el primer mapeo
+              if (index === 0) {
+                alphabet.current.length = 0;
               }
+              // tomo la letra del contacto actual
               let currentLetter = contact.name[0];
               let type = "";
+              // si no incluye la letra la incluyo e indico que es la primera
               if (!alphabet.current.includes(currentLetter)) {
-                type = "--is-first";
+                type = "--is-first"; // el elemento con esta clase se muestra
                 alphabet.current.push(currentLetter);
               }
+              // compruebo si el contacto actual esta entre los seleccionados
               const isSelected = selectedContacts.find(
                 ({ id }) => id === contact.id
               );
@@ -168,14 +192,11 @@ const ContactList = () => {
                     key={contact.id}
                     contact={contact}
                     onTouch={() => {
-                      if (selectionMode) {
+                      if (isSelectionModeActive) {
                         enterInSelectionMode(contact, !isSelected);
                       } else navigate(`view/${contact.id}`);
                     }}
-                    onLongTouch={enterInSelectionMode}
                     isSelected={isSelected}
-                    isSelectionModeActive={selectionMode}
-                    contactActions={contactActions}
                     matchQuery={onHeaderSearch.query}
                   />
                 </div>

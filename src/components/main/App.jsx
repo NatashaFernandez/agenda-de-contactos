@@ -18,12 +18,12 @@ function App() {
         <Routes>
           <Route exact path="signin" element={<SignIn />} />
           <Route exact path="signup" element={<SignUp />} />
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route exact path="view/:id" element={<ContactDetail />} />
-              <Route exact path="add" element={<AddContact />} />
-              <Route exact path="edit/:id" element={<EditContact />} />
-            </Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route exact path="view/:id" element={<ContactDetail />} />
+            <Route exact path="add" element={<AddContact />} />
+            <Route exact path="edit/:id" element={<EditContact />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AppContexProvider>
