@@ -3,7 +3,7 @@ Aplicación de agenta de contactos hecho en React, permite realizar un CRUD de c
 
  &nbsp;
 ## Funcionalidades
-Listado de funcionalides disponibles en la applicacion y breve descripción (Expandir): 
+Listado de funcionalides disponibles en la aplicación y breve descripción (Expandir): 
 
 * <details><!--Crear una cuenta-->
     <summary>Crear una cuenta</summary>
@@ -106,6 +106,19 @@ Listado de funcionalides disponibles en la applicacion y breve descripción (Exp
 *  Visualizar datos del usuario
 *  Adicionar mas campos para los contactos
     
+&nbsp;
+## Clonando el repositorio
+ Abre la Terminal. Cambia el directorio de trabajo actual a la ubicación en donde quieres clonar el directorio y corre el siguiente comando para crear tu clon local.
+```bash
+$ git clone https://github.com/NatashaFernandez/agenda-de-contactos
+```
+
+Luego de este comando puedes acceder a la carpeta del proyecto con:
+```bash
+$ cd agenda-de-contactos
+```
+Por ultimo en esta ubicación puedes ejecutar los comandos de la [seccion de scripts](#comandos-disponibles)
+
 &nbsp;
 ## Dependencias del proyecto
 Este proyecto tiene como dependencias:
