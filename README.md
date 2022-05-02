@@ -1,70 +1,174 @@
-# Getting Started with Create React App
+# AGENDA DE CONTACTOS
+Aplicación de agenta de contactos hecho en React, permite realizar un CRUD de contactos y guardar los contactos del usuario de forma cifrada en el local storage del navegador.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ &nbsp;
+## Funcionalidades
+Listado de funcionalides disponibles en la applicacion y breve descripción (Expandir): 
 
-## Available Scripts
+* <details><!--Crear una cuenta-->
+    <summary>Crear una cuenta</summary>
+    <hr/>
 
-In the project directory, you can run:
+    * Botón para dirigirse a iniciar sesión
+    * Advertencia cuando las contraseñas no coinciden
+    * Redireccionamiento al inicio de sesión al crear cuenta
+    <hr/>
+    </details>
 
-### `npm start`
+* <details><!--Iniciar sesión-->
+    <summary>Iniciar sesión</summary>
+    <hr/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    * Botón para dirigirse al registro de cuentas
+    * Advertencia cuando las credenciales no son correctas
+    * Redireccionamiento a la lista de contactos al iniciar sesión
+    <hr/>
+    </details>
+* <details><!--Agregar contacto-->
+    <summary>Agregar contacto</summary>
+    <hr/>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    * Diálogo de confirmación de descarte si no se guarda un contacto
+    * Uso de avatar por defecto si no fue establecido
+    * Redireccionamiento hacia el detalle del contacto al ser creado
+    * Redireccionamiento a la la lista de contactos al cancelar
+    <hr/>
+  </details>
+* <details><!--Ver detalle de contacto-->
+    <summary>Ver detalle de contacto</summary>
+    <hr/>
 
-### `npm test`
+    * Acceso a eliminar contacto en el menú
+    * Botón para llamar al contacto
+    * Botón para enviar sms al contacto
+    * Botón para acceder a la edición del contacto
+    * Redireccionamiento a la lista de contactos cuando no existe el ID del contacto
+    <hr/>
+  </details>
+* <details><!--Eliminar contacto--> 
+    <summary>Eliminar contacto</summary>
+    <hr/>
+        
+    * Elimina un contacto
+    * Eliminacion de multiples contactos
+    * Uso de dialogo de confirmacion de acción
+    <hr/>
+  </details>
+* <details><!--Modificar contacto-->
+    <summary>Modificar contacto</summary>
+    <hr/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    * Puedes alterar todas las propiedades de un contacto
+    * Dialogo de confirmación de acción de descartar cambios no guardados
+    * Si actualizas el nombre/apellido y el avatar es el default se actualiza el avatar
+    * Redireccionamiento a la lista de contactos cuando no existe el ID del contacto
+    <hr/>
+  </details>
+* <details><!--Buscar contacto-->
+    <summary>Buscar contacto</summary>
+    <hr/>
 
-### `npm run build`
+    * Se listan solo los resultados de la busqueda
+    * Puedes buscar contactos por Nombre, Apellido o telefono
+    * La coincidencia de busqueda se marca de color azul
+    * Si estas buscando puedes cancelar la seleccion y ver el listado completo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    <hr/>
+  </details>
+* <details><!--Listar contactos-->
+    <summary>Listar contactos</summary>
+    <hr/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    * Se muestra el avatar y nombre completo de cada contacto
+    * Al clickear un item te lleva a su detalle
+    * La lista de contactos esta ordenada de forma acendente
+    * Cada contacto listado se muestra junto a la letra inicial.\
+        La primera incidencia dentro del alfabeto es visible.
+    * Se puede seleccionar contactos desde el menú
+    * Si tienes contactos seleccionados puedes usar la eliminación múltiple
+    <hr/>
+  </details>
+* <details><!--Agregar avatar-->
+    <summary>Agregar avatar</summary>
+    <hr/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    *  Se establece un avatar por defecto. Con letra y color aleatorio
+    *  Se puede tomar una foto desde la cámara
+    *  Permite seleccionar una foto de la galería
+    <hr/>
+  </details>
+  
+### Funcionalidades que aun no estan disponibles
 
-### `npm run eject`
+*  Eliminar cuenta del usuario
+*  Configurar preferencias del usuario
+*  Modificar datos del usuario
+*  Visualizar datos del usuario
+*  Adicionar mas campos para los contactos
+    
+&nbsp;
+## Dependencias del proyecto
+Este proyecto tiene como dependencias:
+* React v16
+* React Router v6
+* CryptoJS
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Revisa la seccion de [instalacion de dependencias](#instalar-las-dependencias) para asegurarte de tener lo necesario.
+  
+&nbsp;
+## Bugs
+Hasta el momento no hay bugs conocidos
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+&nbsp;
+## Comandos disponibles:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+En este proyecto puedes usar comandos para:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+&nbsp;
+### `Instalar las dependencias`
+Instala las dependencias mediante el siguiente script
+```bash
+$ npm install
+```
 
-## Learn More
+&nbsp;
+### `Lanzar la aplicacion`
+Usa el siguiente script para correr la aplicacion en modo desarrollo:
+```
+$ npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Luego dirigete a [http://localhost:3000](http://localhost:3000) para ver la aplicacion en el navegador.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Para empezar puedes crearte una cuenta y empezar a usar la aplicacion.\
+Si recargas la aplicacion debes loguarte nuevamente.
 
-### Code Splitting
+&nbsp;
+### `Testear la aplicacion`
+```
+$ npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Lanza el corredor de pruebas en el modo de observacion interactivo .\
+Para mas informacion revise la seccion [running tests](https://facebook.github.io/create-react-app/docs/running-tests).
 
-### Analyzing the Bundle Size
+&nbsp;
+### `Construir la aplicacion`
+```
+$ npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Construye la aplicacion en modo productivo en la carpeta `build`.\
+Este modo optimiza la aplicacion con la mejor optimizacion.
 
-### Making a Progressive Web App
+La contruccion minifica el codigo y agrega los hashes a los nombres de archivos.\
+Con ello la app esta lista para deployarse a un ambiente productivo!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Para mas informacion revise la guia de [deployment](https://facebook.github.io/create-react-app/docs/deployment).
 
-### Advanced Configuration
+&nbsp;
+## Mas informacion
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Puedes encontrar mas informacion sobre los scripts, code splitting, Bundle size analyzing, configuraciones avanzadas y creacion de una progressive web app en la documentacion de react: [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Para aprender sobre la tecnologia de React, revisa el link a [Documentacion de React](https://reactjs.org/).
